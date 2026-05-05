@@ -23,8 +23,15 @@ export const registerUser = async(req,res,next)=>{
             { expiresIn: "7d" }
         ); 
         res.status(201).json({
-            message: "User registered successfully",token
+            message: "User registered successfully",
+            token,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
         });
+    
 
     } catch (error) {
         next(error);
@@ -48,8 +55,15 @@ export const loginUser = async(req,res,next)=>{
             { expiresIn: "7d" }
         ); 
         res.status(200).json({
-            message: "login successfully",token
+            message: "login successful",
+            token,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
         });
+
     } catch (error) {
         next(error);
     }
@@ -60,6 +74,14 @@ export const logoutUser = async (req, res, next) => {
     res.status(200).json({
       message: "Logout successful.Please delete token on client"
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getMe = async (req, res, next) => {
+  try {
+    res.status(200).json(req.user);
   } catch (error) {
     next(error);
   }
